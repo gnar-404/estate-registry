@@ -3,8 +3,7 @@ package estate.service;
 import estate.domain.Address;
 import estate.dto.AddressDto;
 import estate.dto.AddressIdSpecificDto;
-import estate.exception.AddressExistsException;
-import estate.exception.AddressNotFoundException;
+import estate.exception.DataExistsException;
 import estate.exception.NoDataFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -33,7 +32,7 @@ public class AddressService {
                 .collect(Collectors.toList()).size() > 0;
 
         if (addressExists) {
-            throw new AddressExistsException();
+            throw new DataExistsException();
         }
 
         Address address = new Address();
@@ -48,7 +47,7 @@ public class AddressService {
     @Transactional(readOnly = true)
     public Address findById(Long addressId) {
         return addressDao.findById(addressId)
-                .orElseThrow(() -> new AddressNotFoundException(addressId));
+                .orElseThrow(() -> new NoDataFoundException());
     }
 
     @Transactional(readOnly = true)

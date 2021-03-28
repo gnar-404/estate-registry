@@ -1,5 +1,6 @@
 package estate.unitTests;
 
+import estate.exception.NoDataFoundException;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -11,7 +12,6 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import estate.dao.OwnerDao;
 import estate.domain.Owner;
 import estate.dto.OwnerDto;
-import estate.exception.OwnerNotFoundException;
 import estate.service.OwnerService;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
@@ -38,7 +38,7 @@ public class OwnerServiceUnitTest {
     public void whenOwnerDoesNotExist_thenThrowException(){
         Mockito.when(ownerDao.findByPersonalCode("49105170123")).thenReturn(null);
 
-        Exception exception = assertThrows(OwnerNotFoundException.class, () -> {
+        Exception exception = assertThrows(NoDataFoundException.class, () -> {
             ownerService.getOwnerByPersonalCode("49105170123");
         });
 

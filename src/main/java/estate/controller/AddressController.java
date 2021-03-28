@@ -19,7 +19,8 @@ public class AddressController {
     private AddressService addressService;
 
     @RequestMapping(value = "/api/address", method = RequestMethod.POST)
-    @ApiOperation(value = "Creates a new address", notes = "Creates a new address")
+    @ApiOperation(value = "Creates a new address", notes = "Creates a new address. Number field should be number with" +
+            " max length 5 and if need one letter")
     public ResponseEntity addAddress(
             @ApiParam(value = "Address Data", required = true)
             @RequestBody @Valid AddressDto addressDto
