@@ -1,5 +1,6 @@
 package estate.service;
 
+import estate.exception.DataExistsException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -8,8 +9,6 @@ import estate.domain.*;
 import estate.dto.TaxDto;
 import estate.dto.TaxRateDto;
 import estate.exception.NoDataFoundException;
-import estate.exception.TaxRateExistsException;
-import estate.exception.TaxRateNotExistsException;
 
 import javax.validation.Valid;
 import java.math.BigDecimal;
@@ -93,7 +92,7 @@ public class TaxService {
         TaxRate taxRate = taxRateDao.findTaxRateByPropertyType(propertyType);
 
         if (taxRate == null) {
-            throw new TaxRateNotExistsException();
+            throw new NoDataFoundException();
         } else {
             return taxRate;
         }
@@ -113,7 +112,7 @@ public class TaxService {
             taxRateDao.save(taxRate);
 
         } else {
-            throw new TaxRateExistsException();
+            throw new DataExistsException();
         }
     }
 

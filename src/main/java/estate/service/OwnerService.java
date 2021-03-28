@@ -1,5 +1,6 @@
 package estate.service;
 
+import estate.exception.DataExistsException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -8,8 +9,7 @@ import estate.domain.Owner;
 import estate.dto.OwnerDto;
 import estate.dto.OwnerIdSpecificDto;
 import estate.exception.NoDataFoundException;
-import estate.exception.OwnerExistsException;
-import estate.exception.OwnerNotFoundException;
+
 
 import javax.validation.Valid;
 import java.util.List;
@@ -27,7 +27,7 @@ public class OwnerService {
         Owner owner = ownerDao.findByPersonalCode(ownerDto.getPersonalCode());
 
         if(owner != null) {
-            throw new OwnerExistsException();
+            throw new DataExistsException();
         }
 
         owner = new Owner();
@@ -41,7 +41,7 @@ public class OwnerService {
     public OwnerDto getOwner(Long ownerId) {
 
         Owner owner = ownerDao.findById(ownerId)
-                .orElseThrow(() -> new OwnerNotFoundException(ownerId));
+                .orElseThrow(() -> new NoDataFoundException());
 
         return new OwnerDto(owner);
     }
@@ -66,7 +66,7 @@ public class OwnerService {
         Owner owner = ownerDao.findByPersonalCode(personalCode);
 
         if (owner == null) {
-            throw new OwnerNotFoundException(personalCode);
+            throw new NoDataFoundException();
         } else {
             return new OwnerIdSpecificDto(owner);
         }
@@ -74,14 +74,14 @@ public class OwnerService {
 
     @Transactional(readOnly = true)
     public Owner findById(Long ownerId) {
-        return ownerDao.findById(ownerId).orElseThrow(() -> new OwnerNotFoundException(ownerId));
+        return ownerDao.findById(ownerId).orElseThrow(() -> new NoDataFoundException());
     }
 
     @Transactional(readOnly = true)
     public Owner findByPersonalCode(String personalCode){
         Owner owner = ownerDao.findByPersonalCode(personalCode);
         if (owner == null) {
-            throw new OwnerNotFoundException(personalCode);
+            throw new NoDataFoundException();
         }
         return owner;
     }
