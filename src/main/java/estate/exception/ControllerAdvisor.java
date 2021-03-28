@@ -9,9 +9,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
-
 import java.time.LocalDate;
-
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -20,9 +18,9 @@ import java.util.stream.Collectors;
 @ControllerAdvice
 public class ControllerAdvisor extends ResponseEntityExceptionHandler {
 
-    @ExceptionHandler(OwnerNotFoundException.class)
-    public ResponseEntity<Object> handleOwnerNotFoundException(
-            OwnerNotFoundException ex) {
+    @ExceptionHandler(DataExistsException.class)
+    public ResponseEntity<Object> handleDataExistsException(
+            DataExistsException ex) {
 
         Map<String, Object> body = new LinkedHashMap<>();
         body.put("message", ex.getMessage());
@@ -30,35 +28,6 @@ public class ControllerAdvisor extends ResponseEntityExceptionHandler {
         return new ResponseEntity<>(body, HttpStatus.NOT_FOUND);
     }
 
-    @ExceptionHandler(OwnerExistsException.class)
-    public ResponseEntity<Object> handleOwnerExistsException(
-            OwnerExistsException ex) {
-
-        Map<String, Object> body = new LinkedHashMap<>();
-        body.put("message", ex.getMessage());
-
-        return new ResponseEntity<>(body, HttpStatus.CONFLICT);
-    }
-
-    @ExceptionHandler(TaxRateNotExistsException.class)
-    public ResponseEntity<Object> handleTaxRateNotExistsException(
-            TaxRateNotExistsException ex) {
-
-        Map<String, Object> body = new LinkedHashMap<>();
-        body.put("message", ex.getMessage());
-
-        return new ResponseEntity<>(body, HttpStatus.NOT_FOUND);
-    }
-
-    @ExceptionHandler(TaxRateExistsException.class)
-    public ResponseEntity<Object> handleTaxRateExistsException(
-            TaxRateExistsException ex) {
-
-        Map<String, Object> body = new LinkedHashMap<>();
-        body.put("message", ex.getMessage());
-
-        return new ResponseEntity<>(body, HttpStatus.CONFLICT);
-    }
 
     @ExceptionHandler(BuildingNotFoundException.class)
     public ResponseEntity<Object> handleBuildingNotFoundException(
@@ -73,26 +42,6 @@ public class ControllerAdvisor extends ResponseEntityExceptionHandler {
     @ExceptionHandler(BuildingExistsException.class)
     public ResponseEntity<Object> handleBuildingExistsException(
             BuildingExistsException ex) {
-
-        Map<String, Object> body = new LinkedHashMap<>();
-        body.put("message", ex.getMessage());
-
-        return new ResponseEntity<>(body, HttpStatus.CONFLICT);
-    }
-
-    @ExceptionHandler(AddressNotFoundException.class)
-    public ResponseEntity<Object> handleAddressNotFoundException(
-            AddressNotFoundException ex) {
-
-        Map<String, Object> body = new LinkedHashMap<>();
-        body.put("message", ex.getMessage());
-
-        return new ResponseEntity<>(body, HttpStatus.NOT_FOUND);
-    }
-
-    @ExceptionHandler(AddressExistsException.class)
-    public ResponseEntity<Object> handleAddressExistsException(
-            AddressExistsException ex) {
 
         Map<String, Object> body = new LinkedHashMap<>();
         body.put("message", ex.getMessage());
